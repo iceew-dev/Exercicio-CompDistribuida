@@ -1,0 +1,90 @@
+import math
+import random
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+# -------------------------
+# cálculo analítico
+# -------------------------
+def disponibilidade_analitica(n, k, p):
+
+    A = 0.0
+
+    for i in range(k, n + 1):
+        comb = math.comb(n, i)
+        prob = comb * (p ** i) * ((1 - p) ** (n - i))
+        A += prob
+
+    return A
+
+
+# -------------------------
+# simulador estocástico
+# -------------------------
+def simulacao(n, k, p, rodadas=100000):
+
+    sucessos = 0
+
+    for _ in range(rodadas):
+
+        servidores_ativos = 0
+
+        for _ in range(n):
+
+            if random.random() <= p:
+                servidores_ativos += 1
+
+        if servidores_ativos >= k:
+            sucessos += 1
+
+    return sucessos / rodadas
+
+
+# -------------------------
+# parâmetros do experimento
+# -------------------------
+n_valores = [5, 10, 15]
+p = 0.9
+
+resultados = []
+
+for n in n_valores:
+
+    k1 = 1
+    k2 = n // 2
+    k3 = n
+
+    for k in [k1, k2, k3]:
+
+        analitico = disponibilidade_analitica(n, k, p)
+        experimental = simulacao(n, k, p)
+
+        resultados.append([n, k, p, analitico, experimental])
+
+
+# -------------------------
+# tabela
+# -------------------------
+df = pd.DataFrame(resultados,
+                  columns=["n", "k", "p", "Analítico", "Simulação"])
+
+print(df)
+
+
+# -------------------------
+# gráfico
+# -------------------------
+plt.figure()
+
+plt.plot(df["k"], df["Analítico"], marker='o', label="Analítico")
+plt.plot(df["k"], df["Simulação"], marker='x', label="Simulação")
+
+plt.xlabel("k (mínimo de servidores)")
+plt.ylabel("Disponibilidade")
+
+plt.title("Disponibilidade do Serviço Replicado")
+
+plt.legend()
+
+plt.show()
