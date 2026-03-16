@@ -2,8 +2,8 @@
 
 
 
-Caio Victor - 2010224
-Brenno Damiany - 2315088
+Caio Victor - 2010224 /
+Brenno Damiany - 2315088 /
 Diego Queiroz - 2315108
 
 Exercicio 1.1
