@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Disponibilidade de Serviço Replicado
 
 Trabalho da disciplina **Computação Distribuída**.
