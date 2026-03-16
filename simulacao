@@ -1,0 +1,48 @@
+import math
+import matplotlib.pyplot as plt
+
+
+def disponibilidade_analitica(n, k, p):
+
+    A = 0
+
+    for i in range(k, n + 1):
+        comb = math.comb(n, i)
+        prob = comb * (p ** i) * ((1 - p) ** (n - i))
+        A += prob
+
+    return A
+
+
+p = 0.9
+
+n_valores = list(range(1, 31))
+
+disp_k1 = []
+disp_kn2 = []
+disp_kn = []
+
+for n in n_valores:
+
+    disp_k1.append(disponibilidade_analitica(n, 1, p))
+    disp_kn2.append(disponibilidade_analitica(n, n//2, p))
+    disp_kn.append(disponibilidade_analitica(n, n, p))
+
+
+plt.figure(figsize=(8,5))
+
+plt.plot(n_valores, disp_k1, label="k = 1", marker="o")
+plt.plot(n_valores, disp_kn2, label="k = n/2", marker="s")
+plt.plot(n_valores, disp_kn, label="k = n", marker="x")
+
+plt.xlabel("Número de servidores (n)")
+plt.ylabel("Disponibilidade")
+
+plt.title("Disponibilidade de um Serviço Replicado")
+
+plt.legend()
+plt.grid(True)
+
+plt.savefig("graficos/disponibilidade.png")
+
+plt.show()
